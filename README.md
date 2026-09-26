@@ -54,3 +54,17 @@ ruff check .
 ```
 
 The graph is assembled by `coco_agents.graph.create_graph`. Keep integrations in `coco_agents.tools` and specialist orchestration in `coco_agents.agents`.
+
+## Visualize the graph
+
+Export the graph as a standard PNG image without calling any model or external API:
+
+```bash
+.venv/bin/python scripts/visualize_graph.py
+```
+
+The default output is `artifacts/coco-graph.png`. To also export the Mermaid source:
+
+```bash
+.venv/bin/python scripts/visualize_graph.py --mermaid artifacts/coco-graph.mmd
+```
