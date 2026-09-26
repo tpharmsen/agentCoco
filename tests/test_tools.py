@@ -66,8 +66,8 @@ def test_tmdb_search_sends_authenticated_request(monkeypatch: pytest.MonkeyPatch
         def json(self) -> dict:
             return {"results": [{"title": "The Matrix"}]}
 
-    def fake_get(url, *, params, timeout):
-        captured.update(url=url, params=params, timeout=timeout)
+    def fake_get(url, *, params, headers, timeout):
+        captured.update(url=url, params=params, headers=headers, timeout=timeout)
         return FakeResponse()
 
     monkeypatch.setattr("coco_agents.tools.tmdb.httpx.get", fake_get)
@@ -78,10 +78,48 @@ def test_tmdb_search_sends_authenticated_request(monkeypatch: pytest.MonkeyPatch
     assert captured == {
         "url": "https://api.themoviedb.org/3/search/movie",
         "params": {
-            "api_key": "tmdb-test-key",
             "query": "science fiction",
             "language": "en-US",
-            "include_adult": "false",
+        },
+        "headers": {
+            "Authorization": "Bearer tmdb-test-key",
+            "accept": "application/json",
         },
         "timeout": 15,
     }
+
+
+def test_tmdb_supports_discover_and_movie_detail_endpoints(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    requests = []
+
+    class FakeResponse:
+        def raise_for_status(self) -> None:
+            return None
+
+        def json(self) -> dict:
+            return {"results": [{"id": 550}]}
+
+    def fake_get(url, *, params, headers, timeout):
+        requests.append((url, params, headers, timeout))
+        return FakeResponse()
+
+    monkeypatch.setattr("coco_agents.tools.tmdb.httpx.get", fake_get)
+    client = TMDBClient("tmdb-test-key")
+
+    assert client.discover_movies(primary_release_year=2024, sort_by="vote_average.desc") == [
+        {"id": 550}
+    ]
+    assert client.movie_details(550) == [{"id": 550}]
+    assert requests[0][0].endswith("/discover/movie")
+    assert requests[0][1]["primary_release_year"] == 2024
+    assert requests[1][0].endswith("/movie/550")
+    assert (
+        requests[0][2]
+        == requests[1][2]
+        == {
+            "Authorization": "Bearer tmdb-test-key",
+            "accept": "application/json",
+        }
+    )

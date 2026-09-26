@@ -40,9 +40,9 @@ Every command proposed by the coding agent requires interactive approval in the 
 execution is denied by default for non-interactive callers unless they pass an explicit
 `approve_command` callback to `create_graph`.
 
-Movie requests use TMDB's authenticated `/3/search/movie` endpoint. Set `TMDB_API_KEY` to a
-valid TMDB v3 API key; the movie agent sends the user's request as the search query and uses
-the returned movie records to compose its response.
+Movie requests use TMDB's authenticated API with bearer headers. The movie agent can search
+titles, discover by filters, retrieve details, recommendations, similar movies, credits,
+watch providers, videos, reviews, and genre IDs. Set `TMDB_API_KEY` to a valid TMDB v3 API key.
 
 ## Development
 
