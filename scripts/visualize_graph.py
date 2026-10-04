@@ -1,10 +1,10 @@
-"""Export the Coco LangGraph as a standard PNG image and optional Mermaid source."""
+"""Export the Lewis LangGraph as a standard PNG image and optional Mermaid source."""
 
 from argparse import ArgumentParser
 from pathlib import Path
 
-from coco_agents.config import Settings
-from coco_agents.graph import create_graph
+from lewis_agents.config import Settings
+from lewis_agents.graph import create_graph
 
 
 def main() -> None:
@@ -12,8 +12,8 @@ def main() -> None:
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path("artifacts/coco-graph.png"),
-        help="PNG output path (default: artifacts/coco-graph.png)",
+        default=Path("artifacts/lewis-graph.png"),
+        help="PNG output path (default: artifacts/lewis-graph.png)",
     )
     parser.add_argument("--mermaid", type=Path, help="Optional Mermaid source output path")
     args = parser.parse_args()

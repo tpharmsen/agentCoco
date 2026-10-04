@@ -1,6 +1,6 @@
-# Coco agents
+# Lewis agents
 
-Coco is a small LangGraph supervisor that routes requests to four specialists:
+Lewis is a small LangGraph supervisor that routes requests to four specialists:
 
 - **Chat**: handles normal conversation without calling external tools.
 - **Coding**: works in a configured documents workspace and can run commands there.
@@ -11,7 +11,7 @@ Coco is a small LangGraph supervisor that routes requests to four specialists:
 
 ```bash
 python -m pip install -e ".[dev]"
-python -m coco_agents
+python -m lewis_agents
 ```
 
 In an interactive terminal, your input prompt is white `>>>` and agent responses are bold blue. Color is
@@ -53,7 +53,7 @@ ruff format .
 ruff check .
 ```
 
-The graph is assembled by `coco_agents.graph.create_graph`. Keep integrations in `coco_agents.tools` and specialist orchestration in `coco_agents.agents`.
+The graph is assembled by `lewis_agents.graph.create_graph`. Keep integrations in `lewis_agents.tools` and specialist orchestration in `lewis_agents.agents`.
 
 ## Visualize the graph
 
@@ -63,8 +63,8 @@ Export the graph as a standard PNG image without calling any model or external A
 .venv/bin/python scripts/visualize_graph.py
 ```
 
-The default output is `artifacts/coco-graph.png`. To also export the Mermaid source:
+The default output is `artifacts/lewis-graph.png`. To also export the Mermaid source:
 
 ```bash
-.venv/bin/python scripts/visualize_graph.py --mermaid artifacts/coco-graph.mmd
+.venv/bin/python scripts/visualize_graph.py --mermaid artifacts/lewis-graph.mmd
 ```

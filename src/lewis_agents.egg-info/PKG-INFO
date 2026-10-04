@@ -1,5 +1,5 @@
 Metadata-Version: 2.4
-Name: coco-agents
+Name: lewis-agents
 Version: 0.1.0
 Summary: A LangGraph supervisor with coding, movie, and web agents
 Requires-Python: >=3.11

@@ -1,4 +1,4 @@
-from coco_agents import terminal
+from lewis_agents import terminal
 
 
 def test_terminal_colors_are_disabled_when_no_color_is_set(monkeypatch):

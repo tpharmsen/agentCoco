@@ -3,10 +3,10 @@ from pathlib import Path
 import pytest
 from langchain_core.messages import HumanMessage
 
-from coco_agents.config import Settings
-from coco_agents.graph import _route
-from coco_agents.tools.tmdb import TMDBClient
-from coco_agents.tools.workspace import WorkspaceTool
+from lewis_agents.config import Settings
+from lewis_agents.graph import _route
+from lewis_agents.tools.tmdb import TMDBClient
+from lewis_agents.tools.workspace import WorkspaceTool
 
 
 def test_workspace_rejects_paths_outside_root(tmp_path: Path) -> None:
@@ -42,7 +42,7 @@ def test_supervisor_accepts_chat_route(monkeypatch: pytest.MonkeyPatch) -> None:
         def invoke(self, messages):
             return type("Response", (), {"content": "chat"})()
 
-    monkeypatch.setattr("coco_agents.graph.create_chat_model", lambda settings: FakeModel())
+    monkeypatch.setattr("lewis_agents.graph.create_chat_model", lambda settings: FakeModel())
     settings = Settings(
         _env_file=None,
         model_provider="ollama",
@@ -70,7 +70,7 @@ def test_tmdb_search_sends_authenticated_request(monkeypatch: pytest.MonkeyPatch
         captured.update(url=url, params=params, headers=headers, timeout=timeout)
         return FakeResponse()
 
-    monkeypatch.setattr("coco_agents.tools.tmdb.httpx.get", fake_get)
+    monkeypatch.setattr("lewis_agents.tools.tmdb.httpx.get", fake_get)
 
     results = TMDBClient("tmdb-test-key").search_movies("science fiction")
 
@@ -105,7 +105,7 @@ def test_tmdb_supports_discover_and_movie_detail_endpoints(
         requests.append((url, params, headers, timeout))
         return FakeResponse()
 
-    monkeypatch.setattr("coco_agents.tools.tmdb.httpx.get", fake_get)
+    monkeypatch.setattr("lewis_agents.tools.tmdb.httpx.get", fake_get)
     client = TMDBClient("tmdb-test-key")
 
     assert client.discover_movies(primary_release_year=2024, sort_by="vote_average.desc") == [

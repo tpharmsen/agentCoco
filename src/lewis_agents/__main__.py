@@ -11,7 +11,7 @@ def approve_command(command: str, workspace: Path) -> bool:
 
 def main() -> None:
     graph = create_graph(approve_command=approve_command)
-    print("Coco agents ready. Type 'exit' to quit.")
+    print("Lewis agents ready. Type 'exit' to quit.")
     while True:
         prompt = input(format_user_prompt())
         if prompt.strip().lower() in {"exit", "quit"}:
